@@ -65,6 +65,19 @@ public class BnrCompositeConverter: IConverter {
     public var convertersMap: Dictionary<AvionicSource, BnrConverter> = [:]
     public var valuesMap: Dictionary<AvionicSource, AvionicResult> = [:]
 
+    public init(){
+
+    }
+
+    public init(converters: (AvionicSource, BnrConverter)...)
+    {
+        var order: Int = 0
+        for converter in converters
+        {
+            AddConverter(source: converter.0, converter: converter.1, order: order)
+            order += 1
+        }
+    }
     
     public func AddConverter(source: AvionicSource, converter: BnrConverter, order: Int){
         orderedSource.insert(source, at: order)

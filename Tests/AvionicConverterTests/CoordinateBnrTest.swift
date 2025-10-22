@@ -17,13 +17,23 @@ struct CoordinateBnrTest {
     
     init()
     {
-        latitudeConverter = BnrCompositeConverter()
-        latitudeConverter.AddConverter(source: AvionicSource(bus:4, label:110), converter: BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true), order: 0)
-        latitudeConverter.AddConverter(source: AvionicSource(bus:4, label:120), converter: BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true), order: 1)
+        // latitudeConverter = BnrCompositeConverter()
+        // latitudeConverter.AddConverter(source: AvionicSource(bus:4, label:110), converter: BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true), order: 0)
+        // latitudeConverter.AddConverter(source: AvionicSource(bus:4, label:120), converter: BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true), order: 1)
         
-        longitudeConverter = BnrCompositeConverter()
-        longitudeConverter.AddConverter(source: AvionicSource(bus:4, label:111), converter: BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true), order: 0)
-        longitudeConverter.AddConverter(source: AvionicSource(bus:4, label:121), converter: BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true), order: 1)
+        latitudeConverter = BnrCompositeConverter(converters:
+            (AvionicSource(bus:4, label:110), BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true)),
+            (AvionicSource(bus:4, label:120), BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true))
+        )
+
+        longitudeConverter = BnrCompositeConverter(converters:
+            (AvionicSource(bus:4, label:111), BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true)),
+            (AvionicSource(bus:4, label:121), BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true))
+        )
+
+        // longitudeConverter = BnrCompositeConverter()
+        // longitudeConverter.AddConverter(source: AvionicSource(bus:4, label:111), converter: BnrConverter.CreateFromRange(range: 180, dataBitLength: 20, offset: 0, isSigned: true), order: 0)
+        // longitudeConverter.AddConverter(source: AvionicSource(bus:4, label:121), converter: BnrConverter.CreateFromRange(range: 0.000172, dataBitLength: 11, offset: 9, isSigned: true), order: 1)
     }
     
     @Test func encode_coordinate_latitude() async throws {
